@@ -5077,6 +5077,12 @@ input[type="button"].btn-block {
   border-bottom-left-radius: 0;
 }
 
+.fit-image {
+  max-width: 100%; 
+  height: auto; 
+  display: block;
+}
+
 .card-body {
   -webkit-box-flex: 1;
   -webkit-flex: 1 1 auto;
