@@ -11382,10 +11382,10 @@ pre .code {
   display: -ms-flexbox;
   display: flex;
   -webkit-box-pack: justify;
-  -webkit-justify-content: start;
+  -webkit-justify-content: space-between;
       -ms-flex-pack: justify;
-          justify-content: start;
-  max-width: 180px;
+          justify-content: space-between;
+  max-width: 80px;
 }
 
 .social-icons .social-link {
