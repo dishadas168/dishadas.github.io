@@ -16,6 +16,11 @@ header {
     padding: 20px;
     text-align: center;
     width: 100%;
+    height: 300px; 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 h1 {
@@ -26,6 +31,8 @@ section {
     padding: 20px;
     width: 100%;
     max-width: 800px;
+    border-bottom: 2px solid #ddd; /* Add border between sections */
+    margin-bottom: 20px; /* Add space between sections */
 }
 
 img {
@@ -56,4 +63,13 @@ iframe {
 
 .reference p {
     margin-bottom: 10px;
+}
+
+.journal {
+    font-style: italic;
+    font-weight: normal;
+}
+
+.authors {
+    font-weight: normal;
 }
