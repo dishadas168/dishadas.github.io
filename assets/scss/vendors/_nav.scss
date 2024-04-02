@@ -11,7 +11,7 @@
   list-style: none;
 }
 
-.nav-link {
+.nav-link, .nav-link-2 {
   display: block;
   padding: $nav-link-padding-y $nav-link-padding-x;
 
@@ -38,7 +38,7 @@
     margin-bottom: -$nav-tabs-border-width;
   }
 
-  .nav-link {
+  .nav-link, .nav-link-2 {
     border: $nav-tabs-border-width solid transparent;
     @include border-top-radius($nav-tabs-border-radius);
 
@@ -54,7 +54,9 @@
   }
 
   .nav-link.active,
-  .nav-item.show .nav-link {
+  .nav-item.show .nav-link,
+  .nav-link-2.active,
+  .nav-item.show .nav-link-2 {
     color: $nav-tabs-link-active-color;
     background-color: $nav-tabs-link-active-bg;
     border-color: $nav-tabs-link-active-border-color;
@@ -74,12 +76,14 @@
 //
 
 .nav-pills {
-  .nav-link {
+  .nav-link, .nav-link-2 {
     @include border-radius($nav-pills-border-radius);
   }
 
   .nav-link.active,
-  .show > .nav-link {
+  .show > .nav-link,
+  .nav-link-2.active,
+  .show > .nav-link-2  {
     color: $nav-pills-link-active-color;
     background-color: $nav-pills-link-active-bg;
   }

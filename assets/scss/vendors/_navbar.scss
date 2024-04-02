@@ -65,7 +65,7 @@
   margin-bottom: 0;
   list-style: none;
 
-  .nav-link {
+  .nav-link, .nav-link-2 {
     padding-right: 0;
     padding-left: 0;
   }
@@ -157,7 +157,7 @@
             position: absolute;
           }
 
-          .nav-link {
+          .nav-link, .nav-link-2 {
             padding-right: $navbar-nav-link-padding-x;
             padding-left: $navbar-nav-link-padding-x;
           }
@@ -200,7 +200,7 @@
   }
 
   .navbar-nav {
-    .nav-link {
+    .nav-link, .nav-link-2 {
       color: $navbar-light-color;
 
       @include hover-focus {
@@ -215,7 +215,11 @@
     .show > .nav-link,
     .active > .nav-link,
     .nav-link.show,
-    .nav-link.active {
+    .nav-link.active,
+    .show > .nav-link-2,
+    .active > .nav-link-2,
+    .nav-link-2.show,
+    .nav-link-2.active {
       color: $navbar-light-active-color;
     }
   }
@@ -252,7 +256,7 @@
   }
 
   .navbar-nav {
-    .nav-link {
+    .nav-link, .nav-link-2 {
       color: $navbar-dark-color;
 
       @include hover-focus {
@@ -267,7 +271,11 @@
     .show > .nav-link,
     .active > .nav-link,
     .nav-link.show,
-    .nav-link.active {
+    .nav-link.active,
+    .show > .nav-link-2,
+    .active > .nav-link-2,
+    .nav-link-2.show,
+    .nav-link-2.active {
       color: $navbar-dark-active-color;
     }
   }

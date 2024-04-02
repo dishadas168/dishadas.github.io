@@ -18,6 +18,23 @@
         color: $red !important;
     }
 
+    .navbar-nav:first-child .nav-item:first-child .nav-link-2 {
+        padding-left: 0;
+    }
+
+    .navbar-nav:last-child .nav-item:last-child .nav-link-2 {
+        padding-right: 0;
+    }
+
+    .nav-link-2 {
+        font-weight: bold;
+        font-family:"Dosis","Open Sans",sans-serif;
+    }
+
+    .nav-link-2.active {
+        color: $red !important;
+    }
+
     .brand {
         text-align: center;
 

@@ -3671,7 +3671,7 @@
     DATA_SPY: '[data-spy="scroll"]',
     ACTIVE: '.active',
     NAV_LIST_GROUP: '.nav, .list-group',
-    NAV_LINKS: '.nav-link',
+    NAV_LINKS: '.nav-link, .nav-link-2',
     NAV_ITEMS: '.nav-item',
     LIST_ITEMS: '.list-group-item',
     DROPDOWN: '.dropdown',
