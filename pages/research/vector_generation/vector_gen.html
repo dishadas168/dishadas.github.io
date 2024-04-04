@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Comparing the performance of Generative Models for Vector Drawing generation">
+    <title>Comparing the performance of Generative Models for Vector Drawing generation</title>
+    <link rel="stylesheet" href="../../../assets/css/article.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<header>
+    <h1 class="title">Comparing the performance of Generative Models for Vector Drawing generation</h1>
+    <h4 class="authors">Disha Das, Ashwin Jeyaseelan, Naila Fatima, Tarun Pasumarthi</h2>
+    <h4 class="journal">CS7641 Machine Learning final project (2020)</h3>
+</header>
+
+
+<section>
+    <h2>Introduction/Problem</h2>
+    <p>Our objective is to make machine learning models that learn to generate 
+        sketches (vector drawings) of different classes. We experimented with 
+        different models based on the Sketch-RNN model [1], which is a VAE-RNN 
+        that generates sketches of images. The models we used to generate sketches 
+        are a VAE-CNN based off of [1] but with a CNN instead of an RNN for the 
+        input, DCGAN, and Sketch-pix2seq [2].Variational Autoencoders (VAEs) and 
+        Generative Adversarial Networks (GANs) are deep generative models which can 
+        be used to create new examples which could belong to an existing distribution 
+        of samples. GANs and VAEs are both composed of two components- GANs consist 
+        of a generator and a discriminator whereas VAEs consist of an encoder and a 
+        decoder. The components of a GAN are trained adversarially whereas the VAE 
+        components learn the mappings between the input and a compact representation. 
+        The encoder in VAE tries to learn the latent distributions of a select number 
+        of features, and the decoder tries to generate an image of the same class. 
+        We want to compare the results of these models in terms of how easily a trained 
+        classifier can recognize them.
+        </p>
+</section>
+<hr>
+
+<section>
+    <h2>Dataset</h2>
+    <p>We used Google’s QuickDraw dataset [5] to generate the images and train our classifier. The QuickDraw dataset consists of 50 million drawings and 345 categories. For our project, we decided to focus on 10 classes of drawings which are: tree, t-shirt, ice cream, fish, face,  car, bowtie, apple, flamingo, and sheep. 
+        </p>
+    <p>Pictured below is a random sample of pictures from each class, in the order as stated above.</p>
+    <p>We specifically worked with the simplified numpy bitmap dataset which contains the 28 by 28 grayscale images in numpy format. We preprocessed the data by normalizing the images using sklearn's StandardScaler().</p>
+</section>
+<hr>
+
+<section>
+    <h2>Approach</h2>
+</section>
+
+<section>
+    <h3>Deep Convolutional Network</h3>
+    <p>For the supervised part of the project, we implemented a deep convolutional network that learned to classify the ten classes of images. The purpose of implementing a CNN was to have a trained model that can help validate the accuracy of the image outputs of our generated models. </p>
+    <p>To prepare the data, 8400 samples of each class were randomly selected and shuffled for the training dataset, resulting in 84000 training images. Similarly equal samples of each class were randomly selected for the validation and testing datasets, resulting in 36000 validation images and 30000 test images. The classifier was trained with a batch size of 256 images for 60 epochs.</p>
+    <p>The classifier is made up of 3 convolutional layers each with three 3 by 3 kernels, followed by 3 fully connected layers with 10 output nodes that are fed into a softmax function. The purpose of using a softmax activation function in the last layer was to output probabilities of each class. We used the cross entropy loss for the loss function.</p>
+</section>
+
+<section>
+    <h3>Variational Auto-Encoder</h3>
+    <p>For the unsupervised part of the project, we used models such as Variational Auto-Encoders (VAEs), Deep Convolutional Generative Adversarial Network (DCGAN) and Pix2Seq to generate images which belong to a certain distribution. </p>
+    <p>VAEs are deep generative models that try to estimate the probability distribution of the data. Learning the probability distribution of the data is helpful because it can enable the network to generate samples from the distribution of the data. For instance, if a VAE learns which features are necessary to draw a human face (i.e. the nose, eyes, mouth, etc.), then it can generate images of humans by sampling from the distributions of each of those features. For this reason, utilizing a VAE seemed like a great idea for our task.</p>
+    <p>Shown below is an image of our VAE architecture:</p>
+    <p>A VAE consists of two components: an encoder and a decoder. An encoder maps the training sample to a compact representation (z-space) and the decoder attempts to reconstruct the original sample from the compact representation while minimizing the difference between the original sample and its reconstruction. The encoder consists of 3 convolutional layers each with 3x3 kernels, a maxpool layer with a 2x2 kernel and two fully connected layers with 1000 output nodes. The fully connected layers will output the mean and log variance of the distribution followed by the training images. In the z-space, random samples belonging to the distribution of the training samples are chosen. The decoder- which consists of a fully connected layer, an upsampling layer (with scale_factor = 2) and a convolutional layer with 3x3 kernels- reconstructs the images from the randomly chosen samples. The sum of the binary cross entropy loss and the KL-divergence is chosen as the loss function. The loss function represents the difference between the original and generated images and therefore minimizing the loss allows the model to "learn" the images.</p>
+    <p>We trained a separate VAE model for each class and all models were run for 500 epochs.</p>
+</section>
+
+<section>
+    <h3>Sketch-pix2seq model</h3>
+    <p>VAE based Sketch-RNN model by Ha et. al wasn't very successful in generating sketches when trained on multiple categories. The VAE-based Sketch-pix2seq model is a variant of the above model. One of the modifications made was the replacement of the bidirectional RNN encoderused in the Sketch-RNN with a CNN. As a CNN can capture the local structure of images, which is similar to the ways of human to learn sketch concepts, it might be a better choice for the encoder. The second modification was to remove the enforcement of Gaussian prior on the latest space by ignoring the Kullback-Leibler (KL) divergence in the objective function of VAE. The Gaussian prior enforcement on the latent space of the sketch-rnn model might be unsuitable for multiple categories, because it is unlikely that samples of different categories come from the same distribution. The removal of KL-divergence from the cost function allows the encoder to learn a posterior of the latent space that reflects the features of different categories. </p>
+    <p>Shown below is the architecture of the model, taken from [2].</p>
+    <p>The Pix2Seq model takes 2D images of sketches and converts them into pen stroke actions. Each stroke is a list of points, and each point is a vector consisting of 3 elements- the x, y coordinates of pixel and the time elapsed since the first point in milliseconds. These strokes are then converted to image files for demonstration. Similar to the VAE-based Sketch-RNN model, the Pix2Seq model consists of an encoder and a decoder. The encoder consists entirely of CNNs instead of RNNs. A High-pass filter is applied to the sketch before it is fed into CNN. The output of the last convolutional layer is rearranged into a one-dimensional vector, which is subsequently fed into the decoder network. The decoder network generates the 5 dimensional vector similar to the Sketch-RNN model.</p>
+
+</section>
+
+<section>
+    <h3>DCGAN</h3>
+    <p>A GAN consists of two models, the generator , and the discriminator. The generator is trained to fool the discriminator by creating synthetic data as realistic as possible, so its weights are optimized to maximize the probability that any fake image is classified as part of the dataset. The discriminator is trained to identify if the given images are real or fake, so it's weights are optimized to maximize the probability that a real image is classified as belonging to the dataset and that any fake image is not.</p>
+    <p><b>Objective Function:</b></p>
+    <p><b>The following is the architecture of our DCGAN model:</b></p>
+    <p>The discriminator takes in a flattened image of size 28x28=784 and returns the probability of the image being part of the dataset. It is made up of 4 convolutional layers each followed by batch normalization and a leaky-ReLU nonlinearity to prevent overfitting. A sigmoid function is applied to the real-valued output to get a probability between (0,1).</p>
+    <p>The generator takes a latent variable vector as input, and returns a 784 valued vector, which corresponds to a flattened 28x28 image. It is made up of 4 convolutional layers each followed by batch normalization and a Leaky-ReLU nonlinearity. The output layer consists of a TanH activation function, which maps the resulting values into the (-1,1) range, which is the same range in which our preprocessed images is bounded.</p>
+    <p>For both the discriminator and the generator, we use the Adam algorithm with a learning rate of 0.0002 for optimization, and we use binary cross entropy loss as our loss function.</p>
+    <p><b>Our training consisted of the following loop for 10 epochs:</b></p>
+    <ol>
+        <li>Sample a noise set and a real-data set, each with size m</li>
+        <li>Train the discriminator on this data</li>
+        <li>Sample a different noise subset with size m</li>
+        <li>Train the generator on this data</li>
+        <li>Repeat step 1</li>
+    </ol>
+    <p><b>Training for Car Class</b></p>
+    </section>
+
+<section>
+    <h3>VAE all class model</h3>
+    <p>Finally, we tried to implement our own model that could train on multiple classes. The model is a hybrid between the classifier, VAE, and Sketch-pix2seq.</p>
+    <p>Pictured below is the architecture.</p>
+    <p>The encoder of the VAE all class model is identical to our classifier, minus two fully connected layers prior to the output. The decoder is the same decoder used in the VAE model. The loss function uses the idea in the Pix2Seq[2] model, which is to remove the KL divergence from the loss function, so that assumptions about the distribution of images aren't made. Therefore the resulting loss function simply becomes the reconstruction error, in which binary cross entropy is used.</p>
+</section>
+
+<section>
+    <h2>Results</h2>
+</section>
+
+<section>
+    <h3>Classifier</h3>
+    <p>The CNN classifier has a test accuracy of 92.77%. Its performance on each class is shown below:</p>
+    <p>The classifier performs best on the apple dataset, which seems to have low variability amongst its images due to the fact that the object is easy to represent. Images that have much more variability across samples such as the sheep or had more details such as the fish were consequently more difficult for the classifier to predict.</p>
+</section>
+
+<section>
+    <h3>VAE</h3>
+    <p>The VAE outputs are shown below. The left column shows the original images whereas the right column shows the generated images.
+    </p>
+    <p>From left to right: Apple, Bowtie, Face, Fish, Flamingo</p>
+    <p>From left to right: ice cream, Leaf, Sheep, Tree, T-shirt</p>
+</section>
+
+<section>
+    <h3>Sketch-pix2seq</h3>
+    <p>Since the model is purported to perform better with multiple classes, attempts were made at training with a set of classes. Training on less than the recommended number of iterations led to miserable results. Training the model at full capacity would have been unfeasible due to time and resource constraints. Hence the training process had to be cut short and pre-trained models were preferred. The model outputs for the Flamingo and Sheep classes are presented below. The leftmost column consists of the training images, and the rest of the columns contain generated sketches.</p>
+    <p>Flamingo class outputs</p>
+    <p>Sheep class outputs</p>
+</section>
+
+<section>
+    <h3>DCGAN</h3>
+    <p>The DCGAN outputs are shown below in order from top to bottom apple, bowtie, car, face, fish, famingo, ice cream, sheep, tree, t-shirt:</p>
+</section>
+
+<section>
+    <h3>Comparison of generative models trained on single classes</h3>
+    <p>Shown below is a comparison of the VAE's performance and the DCGAN's performance in terms of the accuracy of their generated outputs according to our classifier.</p>
+    <p>Overall, both models produce accurate outputs when trained separately on each class. Surprisingly, the classifier is unable to classify generated outputs of the face with much certainty, despite the fact that the VAE's output face images look representative of the sample face images from the quickdraw dataset. Most of the class images from the VAE are clear and identifiable. Similarly, the classifier reports low accuracy on the generated ice cream images from the DCGAN. Since the generated images of both classes in general look great, the low accuracies for those two classes of images may be due to errors with the classifier itself. At first, we thought that the classifier maypossibly be focussing on trivial features when classifying the images. But since the network architecture and number of kernels is fairly low, we may actually need a larger network and possible more kernels to pick up more features across the classes. Both models have an accuracy greater than 70% for most classes. In our proposal, we had mentioned that an accuracy greater than 70% would indicate that the model outputs are identifiable.</p>
+</section>
+
+<section>
+    <h3>VAE all class model</h3>
+    <p>Initially, we tried to train the VAE all class model with the constraint of only being able to learn 10 latent features across the 10 classes.</p>
+    <p>Pictured below are two samples of generated output images from our model across the 10 classes in certain epochs. (In the following samples of generated images, classes are pictured in this order from left to right: [tree, t-shirt, ice cream, fish, face, car, bowtie, apple, flamingo, and sheep])</p>
+    <p>Clearly 10 features across all classes wasn't enough for the model to properly differentiate between the 10 classes. As a result, the images came out looking pretty similar and circular in shape. Although it produced some nice looking pixelated art!</p>
+    <p>It was apparent that a large number of latent features was necessary for the model to differentiate between the classes. Since the VAE model performed well with 1000 latent features, we decided to use the same number of latent features on this model.</p>
+    <p>After 140 epochs of training the model with 1000 latent features, it was able to produce sample images of the classes shown below.</p>
+    <p>Sample generated images in later epochs are shown below:</p>
+    <p>After 300 epochs of training, there wasn't much improvement. Running for another 200 epochs didn't improve the pictures much either, as the qualityof generated images would drop amongst some classes and slightly increase in other classes. Although removing the KL divergence from the loss function enabled VAE all class model to learn to generate images across 10 different classes, other strategies will be necessary to further improve the accuracy of class specific images.</p>
+</section>
+
+<section>
+    <h2>Conclusion</h2>
+</section>
+
+</body>
+</html>
