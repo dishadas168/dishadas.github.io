@@ -5,24 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="Ultra Fast Seam Carving">
     <title>Ultra Fast Seam Carving for Real Time Object Detection and Removal</title>
-    <link rel="stylesheet" href="assets/css/article.css">
+    <link rel="stylesheet" href="../../../assets/css/article.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
 <header>
     <h1 class="title">Ultra-fast Seam Carving for Real Time Object Detection and Removal</h1>
-    <h2 class="authors">Nicole Kosoris, Disha Das, Naila Fatima</h2>
-    <h3 class="journal">IEEE International Conference on Computational Photography(ICCP)(2020) Poster</h3>
+    <h4 class="authors">Nicole Kosoris, Disha Das, Naila Fatima</h2>
+    <h4 class="journal">IEEE International Conference on Computational Photography(ICCP)(2020) Poster</h3>
 </header>
 
 <section>
+    <h2>ICCP 2020 Poster #2 : Real Time Seam Carving</h2>
     <iframe width="560" height="315" src="https://www.youtube.com/embed/mgh9X6FHkUM?si=zJlxfH4eorz0Wu9i" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 </section>
-    <!-- <div class="section-header" onclick="toggleSection('videoSection')">Embedded Video</div> -->
-    <!-- <iframe width="560" height="315" src="https://www.youtube.com/embed/mgh9X6FHkUM?si=zJlxfH4eorz0Wu9i" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe> -->
-    <!-- <div class="section-content" id="videoSection">
-      <iframe width="560" height="315" src="https://www.youtube.com/embed/YOUR_VIDEO_ID_HERE" frameborder="0" allowfullscreen></iframe>
-    </div> -->
 
 <section>
     <h2>ABSTRACT</h2>
@@ -255,7 +252,8 @@
     <p>The basic optimization undertaken was to convert the arrays to
         GPU arrays, and emphasize matrix-based math rather than single
         operations. MatLab, it was discovered, natively multi-threads for
-        matrix operations, creating a significant speed-up when, for example, a value was added or subtracted from every element in a matrix.
+        matrix operations, creating a significant speed-up when, for example, 
+        a value was added or subtracted from every element in a matrix.
         One of the most significant speedups in this was in calculating the
         energy image, where instead of subtracting the next pixel from
         each pixel, an array of values to be subtracted were created by
@@ -271,6 +269,12 @@
         negated the speedup gained by simultaneous multi-processing of
         more than two sub-images, and the two sub-image variant simply
         wasn’t fast enough.</p>
+
+    <figure class="image-container">
+        <img src="spiral_model.jpg" alt="Figure 1: Spiral Model">
+        <figcaption class="image-caption">Figure 1: Spiral Model Steps</figcaption>
+    </figure>
+
     <p>The Spiral Model was an unexpected success. In the initial testing,
         the model showed significant visual artifacts. The spiral model
         makes the assumption that, since we are deleting an object and the
@@ -279,7 +283,8 @@
         most-needs recalculating after a removal is the map in the columns
         and rows directly correlated to the object to be removed. This
         novel algorithm for very fast seam carving has the following basic
-        concept: 1. Calculate a binary “map” of the object to be removed 2.
+        concept: 
+        1. Calculate a binary “map” of the object to be removed 2.
         Use the map to weight the cost of passing through the object, such
         that all removals will pass through the object 3. While the width or
         height of the section to be removed are greater than zero: a. Update
@@ -290,7 +295,44 @@
         overlap the center; update the image iv. Reduce the width by one
         (check nonzero) b. Update the top sub-section: (i– iii are identical)
         iv. Reduce the height by one (check nonzero) c. Update the right
-        sub-section d. Update the bottom sub-section</p>
+        sub-section d. Update the bottom sub-section
+
+        <ol>
+            <li>Calculate a binary “map” of the object to be removed</li>
+            <li>Use the map to weight the cost of passing through the object, such
+                that all removals will pass through the object</li>
+            <li> While the width or height of the section to be removed are greater than zero:
+                <ol type="a">
+                    <li>Update the left side sub-section:
+                        <ol type="i">
+                            <li>Find the energy image from the left side
+                                to the center of the area to be removed to find the least- impactful
+                                seam</li>
+                            <li>Expand a sub-section of the image along the minimum
+                                energy path, creating a blend in the new seam</li>
+                            <li>The result will
+                                overlap the center; update the image</li>
+                            <li>Reduce the width by one
+                                (check nonzero)</li>
+                        </ol>
+                    </li>
+                    <li>Update the top sub-section:
+                        <ol type="i">
+                            <li>Find the energy image from the left side
+                                to the center of the area to be removed to find the least- impactful
+                                seam</li>
+                            <li>Expand a sub-section of the image along the minimum
+                                energy path, creating a blend in the new seam</li>
+                            <li>The result will overlap the center; update the image</li>
+                            <li>Reduce the height by one (check nonzero)</li>
+                        </ol>      
+                    </li>
+                    <li>Update the right sub-section</li>
+                    <li>Update the bottom sub-section</li>
+                </ol>
+            </li>
+          </ol>
+    </p>
     <p>This runs very fast, able to perform deletions where the max
         dimension is 60 pixels in less than 35 miliseconds, allowing 15
         miliseconds leeway to our optimal success criteria and taking far
@@ -302,6 +344,40 @@
         GPUArray to leverage GPU processing power, beyond MATLAB’s
         native optimizations, did not produce a noticeable difference in the
         image sizes we primarily studied.</p>
+
+        <table>
+            <caption><b>Table 2: Spiral Model Example Images</b></caption>
+            <thead>
+              <tr>
+                <th>Image</th>
+                <th>Original</th>
+                <th>Spiral Result</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Solid Black</td>
+                <td class="img-container" ><img src="solid_black_og.jpg" alt="Original Image - Solid Black"></td>
+                <td class="img-container"><img src="solid_black_sm.jpg" alt="Spiral Result - Solid Black"></td>
+              </tr>
+              <tr>
+                <td>Park & Sky</td>
+                <td class="img-container"><img src="park_sky_og.jpg" alt="Original Image - Park & Sky"></td>
+                <td class="img-container"><img src="park_sky_sm.jpg" alt="Spiral Result - Park & Sky"></td>
+              </tr>
+              <tr>
+                <td>Ball on Path</td>
+                <td class="img-container"><img src="ball_path_og.jpg" alt="Original Image - Ball on Path"></td>
+                <td class="img-container"><img src="ball_path_sm.jpg" alt="Spiral Result - Ball on Path"></td>
+              </tr>
+              <tr>
+                <td>Leaves</td>
+                <td class="img-container"><img src="leaves_og.jpg" alt="Original Image - Leaves"></td>
+                <td class="img-container"><img src="leaves_sm.jpg" alt="Spiral Result - Leaves"></td>
+              </tr>
+            </tbody>
+    </table>
+
     <p>It was expected that this would create very obvious visual artifacts 
         in diamond shapes. In some cases, it did so, but in surprisingly
         many cases, while you could tell that there was something wrong
@@ -418,6 +494,12 @@
         part of the speedup made was due to the change to matrix-based
         operations optimized for GPU processing. As the Raspberry Pi does
         not have a GPU, these were not available.</p>
+
+        <figure class="image-container-wide">
+            <img src="rpi_system.jpg" alt="Figure 2: Target Raspberry Pi System">
+            <figcaption class="image-caption">Figure 2: Target Raspberry Pi System</figcaption>
+        </figure>
+
     <p>What we were reasonably able to do was implement a networked
         solution, handing off processing from the RPi to our i7 and 1080.
         Although documentation suggested the latency on a local network
