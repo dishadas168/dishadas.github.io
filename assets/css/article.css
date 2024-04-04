@@ -214,3 +214,20 @@ table.greyGridTable {
   .video-item p {
     margin-top: 10px;
   }
+
+
+  .equation-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .equation {
+    display: flex;
+    align-items: center;
+    margin-right: 20px; /* Adjust as needed */
+  }
+
+  .equation p {
+    font-style: italic; /* Make the equation italic */
+  }
