@@ -28,6 +28,7 @@ header {
   flex: 3; /* Title occupies 75% of the space */
 }
 
+
 .authors,
 .journal {
   flex: 1; /* Authors and Journal each occupy 25% of the space */
@@ -108,6 +109,18 @@ p {
 .image-container img {
   width: 200px; 
   padding: 20px;
+}
+
+
+.image-container-row {
+  display: flex;
+}
+
+.image-container-row img {
+  width: 33.33%; /* Each image takes up one-third of the container width */
+  height: auto; /* Maintain aspect ratio */
+  display: inline-block;
+  padding: 5px;
 }
 
 table.greyGridTable {

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="RedditGPT">
+    <title>RedditGPT for Telegram</title>
+    <link rel="stylesheet" href="../../../assets/css/article.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<header>
+    <h1>RedditGPT for Telegram</h1>
+</header>
+
+
+
+<section>
+    <h4><a href="https://github.com/dishadas168/reddit-chatgpt">Github Link</a></h4>
+    <h2>Introduction</h2>
+    <p>Picture this: you're knee-deep in a Reddit rabbit hole, scrolling 
+        through a thread brimming with thousands of comments. Soon enough, 
+        the original intent of opening the post is lost and now you're 
+        inundated with all kinds of distractions from various kinds of comments. 
+        Sound familiar? Hi there, I'm no stranger to the allure of Reddit's endless scroll. 
+        But amidst the labyrinth of comments and sub-comments lies a dilemma: 
+        how do we unearth the gems buried within this digital treasure trove 
+        without succumbing to information overload? Enter, RedditGPT, a Telegram bot
+        I developed to assist me in extracting cherry-picked information from Reddit posts
+        right on my phone.</p>
+    <p>Introducing RedditGPT for Telegram—a versatile bot designed to streamline your Reddit 
+        experience right from your smartphone. With this bot, users can effortlessly share 
+        Reddit post URLs directly to the Telegram app, kicking off a seamless process.</p>
+
+    <p>Once the bot receives the URL, it swings into action. Leveraging advanced techniques 
+        such as data chunking and employing a state-of-the-art Large Language Model (LLM)—in this 
+        case, OpenAI's GPT-3.5—the bot generates a comprehensive summary of the Reddit post. This 
+        summary encapsulates not only the post's title and self-text but also dives into the comments, 
+        providing users with a holistic overview.</p>
+        
+    <p>But that's not all. RedditGPT for Telegram features a dynamic QA mode, empowering users to pose 
+        questions about the Reddit post and its comments. From inquiries about suggested places to visit 
+        to queries about trending topics within the discussion, the bot is equipped to provide quick and 
+        relevant answers.</p>
+        
+    <p>For instance, imagine sharing a Reddit post about "Places to visit in Ireland." With the QA mode, 
+        you can engage in a chat session with the bot, asking questions like, "What are the top suggestions 
+        in the comments?" or "Which places have garnered the most upvotes?" The possibilities for insightful 
+        conversation are endless.</p>
+        
+    <p>So whether you're seeking to delve deeper into Reddit discussions or simply looking for quick answers 
+        on the go, RedditGPT for Telegram offers a convenient and efficient solution—all accessible from the
+         palm of your hand.</p>
+</section>
+
+
+<section>
+
+    <div class="image-container-row">
+        <img src="Screenshot_20230905-123953 (1).png" alt="Image 1">
+        <img src="Screenshot_20230905-124033 (1).png" alt="Image 2">
+        <img src="Screenshot_20230905-124038 (1).png" alt="Image 3">
+      </div>
+    <figure class="image-container-wide">
+        <img src="reddit_gpt_architecture.jpg" alt="RedditGPT Architecture">
+        <figcaption class="image-caption">RedditGPT Architecture</figcaption>
+    </figure>
+    <h2>Input and Content Extraction</h2>
+    <p>The foundation of the RedditGPT for Telegram application lies in its user-friendly 
+        chat interface, serving as the gateway to the wealth of Reddit content.</p>
+    <p><b>Post Sharing:</b> A reddit post can be shared directly to the Telegram bot either from 
+        the Reddit app or from the web. </p>
+    <p><b>URL Validation:</b> Ensuring data integrity begins with verifying the legitimacy of the 
+        entered URL. Through meticulous validation checks using regex, the application confirms whether the URL 
+        belongs to Reddit.</p>
+        
+    <p><b>PRAW Integration:</b> Upon successful URL validation, the Python Reddit API Wrapper (PRAW) 
+        facilitates the extraction of Reddit post contents, encompassing the post title, self-text and associated comments.</p>
+        
+    <p><b>Data Chunking:</b> With content in hand, the next step is breaking it down into digestible 
+        chunks. Leveraging a recursive approach, the application generates text chunks tailored to fit 
+        the token limitations of the selected Language Model (LLM)—in this case, OpenAI's GPT-3.5. This 
+        iterative process ensures that each chunk captures the essence of the Reddit content while adhering 
+        to the model's constraints.</p>
+        
+    <p><b>Embedding for Vector Database:</b> Each chunk generated in the above process is meticulously embedded, 
+        and then sent to a Pinecone database. This data is later used for retrieval purposes both for summarization
+        as well as the QA tasks.</p>
+</section>
+
+<section>
+    <h2>Summarization</h2>
+    <p>With content extracted and embedded, the stage is set for the application's summarization prowess:</p>
+
+    <p><b>Chunk Generation:</b> The Reddit post along with comments are chunked from a previous process.</p>
+    <p><b>LLM Model Interaction:</b> Armed with succinct text chunks, the application initiates interaction with 
+        the LLM model, presenting a summarizing prompt. In response, the LLM model crafts a concise summary.</p>
+</section>
+
+<section>
+    <h2>Chat Interface and Interactive Q&A</h2>
+    <p>The application leverages the Pinecone vector database search to retrieve relevant 
+        context. Augmented by contextual insights, user queries are channeled to the LLM model. In response, 
+        the model generates detailed, context-aware answers, providing users with valuable information tailored 
+        to their inquiries. To ensure alignment with Reddit's distinct community language, the LLM model undergoes 
+        fine-tuning using Reddit-specific question-answer pairs. This iterative process refines the model's responses, 
+        enhancing their relevance and authenticity. This is an experimental feature at the moment, under development.</p>
+</section>
+
+<section>
+    <h2>Future Work</h2>
+    <ul>
+        <li>An integration with a MongoDB databse to store user posts and their QA questions and results
+            is a natural next step. This is very similar to the ChatGPT interface. However, for use inside the 
+            Telegram app, the history section could be part of the bottom-left Menu.
+        </li>
+        <li>LLM model fine-tuning using Reddit Question-answer pairs</li>
+    </ul>
+</section>
+
+</body>
+</html>
