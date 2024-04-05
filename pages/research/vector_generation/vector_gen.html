@@ -56,6 +56,9 @@
         t-shirt, ice cream, fish, face,  car, bowtie, apple, flamingo, and sheep. 
         </p>
     <p>Pictured below is a random sample of pictures from each class, in the order as stated above.</p>
+    <figure class="image-container-wide">
+        <img src="img/img1.PNG" alt="img1">
+    </figure>
     <p>We specifically worked with the simplified numpy bitmap dataset which contains 
         the 28 by 28 grayscale images in numpy format. We preprocessed the data by 
         normalizing the images using sklearn's StandardScaler().</p>
@@ -79,6 +82,9 @@
         fed into a softmax function. The purpose of using a softmax activation function 
         in the last layer was to output probabilities of each class. We used the cross 
         entropy loss for the loss function.</p>
+        <figure class="image-container-wide">
+            <img src="img/img2.PNG" alt="img">
+        </figure>
 </section>
 
 <section>
@@ -94,6 +100,9 @@
         from the distributions of each of those features. For this reason, utilizing a VAE 
         seemed like a great idea for our task.</p>
     <p>Shown below is an image of our VAE architecture:</p>
+    <figure class="image-container-wide">
+        <img src="img/img3.PNG" alt="img">
+    </figure>
     <p>A VAE consists of two components: an encoder and a decoder. An encoder maps the 
         training sample to a compact representation (z-space) and the decoder attempts to 
         reconstruct the original sample from the compact representation while minimizing 
@@ -109,6 +118,9 @@
         represents the difference between the original and generated images and therefore minimizing 
         the loss allows the model to "learn" the images.</p>
     <p>We trained a separate VAE model for each class and all models were run for 500 epochs.</p>
+    <figure class="image-container-wide">
+        <img src="img/img4.PNG" alt="img">
+    </figure>
 </section>
 
 <section>
@@ -125,6 +137,9 @@
         the same distribution. The removal of KL-divergence from the cost function allows the encoder 
         to learn a posterior of the latent space that reflects the features of different categories. </p>
     <p>Shown below is the architecture of the model, taken from [2].</p>
+    <figure class="image-container-wide">
+        <img src="img/img5.PNG" alt="img">
+    </figure>
     <p>The Pix2Seq model takes 2D images of sketches and converts them into pen stroke actions. Each 
         stroke is a list of points, and each point is a vector consisting of 3 elements- the x, y coordinates 
         of pixel and the time elapsed since the first point in milliseconds. These strokes are then converted 
@@ -133,7 +148,9 @@
         A High-pass filter is applied to the sketch before it is fed into CNN. The output of the last 
         convolutional layer is rearranged into a one-dimensional vector, which is subsequently fed into 
         the decoder network. The decoder network generates the 5 dimensional vector similar to the Sketch-RNN model.</p>
-
+        <figure class="image-container-wide">
+            <img src="img/img6.PNG" alt="img">
+        </figure>
 </section>
 
 <section>
@@ -145,6 +162,9 @@
         optimized to maximize the probability that a real image is classified as belonging to the dataset 
         and that any fake image is not.</p>
     <p><b>Objective Function:</b></p>
+    <figure class="image-container-wide">
+        <img src="img/img7.PNG" alt="img">
+    </figure>
     <p><b>The following is the architecture of our DCGAN model:</b></p>
     <p>The discriminator takes in a flattened image of size 28x28=784 and returns the probability of the 
         image being part of the dataset. It is made up of 4 convolutional layers each followed by batch 
@@ -157,6 +177,9 @@
         our preprocessed images is bounded.</p>
     <p>For both the discriminator and the generator, we use the Adam algorithm with a learning rate of 
         0.0002 for optimization, and we use binary cross entropy loss as our loss function.</p>
+        <figure class="image-container-wide">
+            <img src="img/img8.PNG" alt="img">
+        </figure>
     <p><b>Our training consisted of the following loop for 10 epochs:</b></p>
     <ol>
         <li>Sample a noise set and a real-data set, each with size m</li>
@@ -166,6 +189,9 @@
         <li>Repeat step 1</li>
     </ol>
     <p><b>Training for Car Class</b></p>
+    <figure class="image-container-wide">
+        <img src="img/img9.gif" alt="img">
+    </figure>
     </section>
 
 <section>
@@ -173,18 +199,27 @@
     <p>Finally, we tried to implement our own model that could train on multiple classes. The model 
         is a hybrid between the classifier, VAE, and Sketch-pix2seq.</p>
     <p>Pictured below is the architecture.</p>
+    <figure class="image-container-wide">
+        <img src="img/img10.PNG" alt="img">
+    </figure>
     <p>The encoder of the VAE all class model is identical to our classifier, minus two fully connected 
         layers prior to the output. The decoder is the same decoder used in the VAE model. The loss 
         function uses the idea in the Pix2Seq[2] model, which is to remove the KL divergence from the 
         loss function, so that assumptions about the distribution of images aren't made. Therefore the 
         resulting loss function simply becomes the reconstruction error, in which binary cross entropy 
         is used.</p>
+        <figure class="image-container-wide">
+            <img src="img/img11.PNG" alt="img">
+        </figure>
 </section>
 
 <section>
     <h2>Results</h2>
     <h3>Classifier</h3>
     <p>The CNN classifier has a test accuracy of 92.77%. Its performance on each class is shown below:</p>
+    <figure class="image-container-wide">
+        <img src="img/img12.PNG" alt="img">
+    </figure>
     <p>The classifier performs best on the apple dataset, which seems to have low variability amongst 
         its images due to the fact that the object is easy to represent. Images that have much more 
         variability across samples such as the sheep or had more details such as the fish were consequently 
@@ -197,7 +232,13 @@
         shows the generated images.
     </p>
     <p>From left to right: Apple, Bowtie, Face, Fish, Flamingo</p>
+    <figure class="image-container-wide">
+        <img src="img/img13.PNG" alt="img">
+    </figure>
     <p>From left to right: ice cream, Leaf, Sheep, Tree, T-shirt</p>
+    <figure class="image-container-wide">
+        <img src="img/img14.PNG" alt="img">
+    </figure>
 </section>
 
 <section>
@@ -209,19 +250,58 @@
         The model outputs for the Flamingo and Sheep classes are presented below. The leftmost column consists 
         of the training images, and the rest of the columns contain generated sketches.</p>
     <p>Flamingo class outputs</p>
+    <figure class="image-container-wide">
+        <img src="img/img15.PNG" alt="img">
+    </figure>
     <p>Sheep class outputs</p>
+    <figure class="image-container-wide">
+        <img src="img/img16.PNG" alt="img">
+    </figure>
 </section>
 
 <section>
     <h3>DCGAN</h3>
     <p>The DCGAN outputs are shown below in order from top to bottom apple, bowtie, car, face, fish, famingo, 
         ice cream, sheep, tree, t-shirt:</p>
+        <figure class="image-container-wide">
+            <img src="img/img17.PNG" alt="img">
+        </figure>
+        <figure class="image-container-wide">
+            <img src="img/img18.PNG" alt="img">
+        </figure>
+        <figure class="image-container-wide">
+            <img src="img/img19.PNG" alt="img">
+        </figure>
+        <figure class="image-container-wide">
+            <img src="img/img20.PNG" alt="img">
+        </figure>
+        <figure class="image-container-wide">
+            <img src="img/img21.PNG" alt="img">
+        </figure>
+        <figure class="image-container-wide">
+            <img src="img/img22.PNG" alt="img">
+        </figure>
+        <figure class="image-container-wide">
+            <img src="img/img23.PNG" alt="img">
+        </figure>
+        <figure class="image-container-wide">
+            <img src="img/img24.PNG" alt="img">
+        </figure>
+        <figure class="image-container-wide">
+            <img src="img/img25.PNG" alt="img">
+        </figure>
+        <figure class="image-container-wide">
+            <img src="img/img26.PNG" alt="img">
+        </figure>
 </section>
 
 <section>
     <h3>Comparison of generative models trained on single classes</h3>
     <p>Shown below is a comparison of the VAE's performance and the DCGAN's performance in terms of the accuracy 
         of their generated outputs according to our classifier.</p>
+        <figure class="image-container-wide">
+            <img src="img/img27.PNG" alt="img">
+        </figure>
     <p>Overall, both models produce accurate outputs when trained separately on each class. Surprisingly, the 
         classifier is unable to classify generated outputs of the face with much certainty, despite the fact 
         that the VAE's output face images look representative of the sample face images from the quickdraw dataset. 
@@ -245,12 +325,24 @@
     <p>Clearly 10 features across all classes wasn't enough for the model to properly differentiate between the 
         10 classes. As a result, the images came out looking pretty similar and circular in shape. Although it 
         produced some nice looking pixelated art!</p>
+        <figure class="image-container-wide">
+            <img src="img/img28.PNG" alt="img">
+        </figure>
     <p>It was apparent that a large number of latent features was necessary for the model to differentiate between 
         the classes. Since the VAE model performed well with 1000 latent features, we decided to use the same 
         number of latent features on this model.</p>
     <p>After 140 epochs of training the model with 1000 latent features, it was able to produce sample images of 
         the classes shown below.</p>
+        <figure class="image-container-wide">
+            <img src="img/img29.PNG" alt="img">
+        </figure>
     <p>Sample generated images in later epochs are shown below:</p>
+    <figure class="image-container-wide">
+        <img src="img/img30.PNG" alt="img">
+    </figure>
+    <figure class="image-container-wide">
+        <img src="img/img31.PNG" alt="img">
+    </figure>
     <p>After 300 epochs of training, there wasn't much improvement. Running for another 200 epochs didn't improve 
         the pictures much either, as the qualityof generated images would drop amongst some classes and slightly 
         increase in other classes. Although removing the KL divergence from the loss function enabled VAE all 
