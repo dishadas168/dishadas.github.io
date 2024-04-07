@@ -11412,6 +11412,10 @@ pre .code {
   color: #F85C70;
 }
 
+.about-me {
+  font-size: large;
+}
+
 .navbar {
   box-shadow: 0 1px 10px rgba(54, 54, 54, 0.18);
   -webkit-box-shadow: 0 1px 10px rgba(54, 54, 54, 0.18);
@@ -11712,3 +11716,4 @@ pre .code {
   display: block;
   margin-top: 10px;
 }
+
