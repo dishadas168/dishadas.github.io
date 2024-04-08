@@ -5095,6 +5095,7 @@ input[type="button"].btn-block {
 .fit-image {
   max-width: 100%; 
   height: auto; 
+  padding-bottom: 20px;
 }
 
 .card-body {
